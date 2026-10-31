@@ -1,5 +1,7 @@
 # Promptpath
 
+Sivuston osoite: [promptpath.koorhonen.workers.dev](https://promptpath.koorhonen.workers.dev/).
+
 Pelimäinen suomenkielinen promptaamisen oppimisympäristö. Rakennettu projektin React 19-, TypeScript-, Vite-, Hono- ja Cloudflare Workers -teknologioilla.
 
 ## Käynnistys
@@ -24,7 +26,7 @@ Kahdeksan tasoa: tehtävä, taustatiedot, vastausmuoto, rajat, esimerkit, tarken
 ## GitHub Pages + Cloudflare
 
 1. Kirjaudu: npx wrangler login.
-2. Lisää wrangler.json-tiedoston ALLOWED_ORIGINS-asetukseen GitHub Pages -alkuperä, esim. https://kayttaja.github.io. Älä lisää repon polkua. Useat alkuperät erotetaan pilkulla.
+2. Sivuston nykyinen alkuperä https://promptpath.koorhonen.workers.dev on määritetty wrangler.json-tiedoston ALLOWED_ORIGINS-asetukseen. Jos käytät lisäksi GitHub Pagesia tai omaa verkkotunnusta, lisää sen alkuperä samaan asetukseen pilkulla erotettuna. Älä lisää osoitteen loppuun kauttaviivaa tai sivupolkua.
 3. Suorita npm run build ja npm run deploy. Cloudflare tarjoaa API:n ja haluttaessa myös käyttöliittymän. Ennen julkaisua tallenna Google AI Studion avain komennolla npx wrangler secret put GEMMA_API_KEY. GEMMA_MODEL-asetus wrangler.json-tiedostossa on gemma-4-26b-a4b-it; vaihtoehto on gemma-4-31b-it. API:n käyttöehdot ja kiintiöt määräytyvät Google-tilin mukaan.
 4. Aseta GitHub-repon Settings → Secrets and variables → Actions → Variables -kohtaan VITE_API_URL = julkaistun Workerin osoite ilman /api-polun osaa.
 5. Valitse Settings → Pages → Source → GitHub Actions. Main-haaran push julkaisee frontendin mukana olevalla työnkululla. Muuta haara tarvittaessa.
