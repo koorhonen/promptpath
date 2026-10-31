@@ -64,3 +64,9 @@ Sivusto avautuu aina tutustumissivulle, josta valitaan suomi tai englanti. Valin
 ## Ulkoasun ohje
 
 [DESIGN.md](DESIGN.md) määrittelee pysyvän Parallax Storytelling -tyylin, värit, typografian, tarinan luvut, mobiiliasettelun ja saavutettavuuden. Tutustumissivu käyttää kerrostettua vieritystä tuetuissa selaimissa. Harjoittelu pysyy paikallaan luettavana. Järjestelmän liikkeen vähentämisasetus poistaa animaatiot.
+
+## Oppimisluokat
+
+Kielen jälkeen valitaan luokka: Promptaamisen perusteet (8 tasoa), Paremmat vastaukset (4), Tekstit ja kutsut (4) tai Tekoälyn työkalut (4). Kaikki 20 harjoitusta ovat suomeksi ja englanniksi. Eteneminen tallennetaan erikseen luokan, kielen ja demo/oikean tilan mukaan. Perusteiden aiemmat tallennukset säilyvät. API ottaa vastaan courseId-arvon foundations, answers, writing tai tools; puuttuessa käytetään perusteita. Työkaluluokka opettaa työkalujen pyytämistä, mutta sivusto arvioi vain promptin eikä suorita sen työkaluja.
+
+Työkalusisällön lähteet: [Googlen työkaludokumentaatio](https://ai.google.dev/gemini-api/docs/tools), [koodin suoritus](https://ai.google.dev/gemini-api/docs/code-execution) ja [Python random](https://docs.python.org/3/library/random.html). Työkalujen saatavuus riippuu käytettävästä palvelusta. Python random on tarkoitettu muun muassa simulaatioihin, ei salasanojen tai salausavainten luomiseen.

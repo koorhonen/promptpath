@@ -39,7 +39,7 @@ Värien ainoa lähde on src/react-app/index.css. Käytä CSS-muuttujia uusissa k
 ## Tutustumissivun rakenne
 
 1. Tahmea .story-header: brändi ja aina käytettävissä oleva Suomi / English -ankkuri. Kielen valintaan pääsee suoraan lukematta koko tarinaa.
-2. .chapter-hero: nykyinen esittely, otsikko ja olemassa olevat luvut 08 / 02 / ääretön.
+2. .chapter-hero: nykyinen esittely, otsikko ja opetussisällöstä lasketut luvut: harjoitusten kokonaismäärä / 02 kieltä / ääretön.
 3. Kolme .chapter-step-lukua: Ymmärrä periaate, Kirjoita oma promptisi, Kehitä ja etene. Kussakin suuri numero sekä nykyinen lyhyt selitys.
 4. .chapter-language: nykyinen kielivalinta, tallennettu eteneminen ja aloituspainike.
 5. Nykyinen lopputeksti.
@@ -85,3 +85,7 @@ Tasopolku, XP, saavutukset ja arviointilomake pysyvät toiminnallisesti ennallaa
 - src/react-app/translations.ts: harjoittelun käännökset.
 
 UI-muutoksen jälkeen varmista TypeScript/build sekä tarkista selaimessa tutustumissivu, kielivalinta ja harjoitus. Tarkista myös pieni näyttö, näppäimistökohdistus ja liikkeen vähentäminen, kun esikatselutyökalut tukevat niitä. Älä lisää toteutusta peilaavia testejä pelkkään CSS-muutokseen.
+
+## Oppimisluokat
+
+Kielen valinnan jälkeen avautuu .course-main-luokkavalinta. Neljä .course-card-korttia käyttää samaa navy-pintaa, rose-yläreunaa ja amber-metatietoja. Luokkavalinta ja harjoittelu pysyvät ilman parallax-liikettä. Luokan nimi ja Vaihda luokkaa -painike näkyvät harjoituksen sivupalkissa. Luokilla voi olla eri määrä tasoja: näytä todelliset luvut, älä kovakoodaa kahdeksaa tasoa. Tallenna eteneminen kielen ja luokan mukaan; perusteiden vanhat tallennusavaimet säilyvät.

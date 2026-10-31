@@ -220,3 +220,22 @@ footer { color:var(--text-muted); font-size:11px; text-align:center; padding:12p
   .title { background:none; color:#111; }
   .story-shortcut { display:none; }
 }
+
+/* Class selection follows DESIGN.md; no parallax around the working controls. */
+.course-main { max-width:1160px; margin:0 auto; padding:65px 32px 25px; }
+.course-main>.eyebrow { color:var(--accent-text); margin:0 0 22px; }
+.course-intro { max-width:670px; color:var(--text-muted); font-size:16px; line-height:1.9; margin:23px 0 38px; }
+.course-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-bottom:35px; }
+.course-card { display:flex; flex-direction:column; padding:30px; background:var(--navy); border:1px solid var(--border); border-top:2px solid var(--rose); border-radius:8px; }
+.course-meta { display:flex; justify-content:space-between; gap:16px; margin-bottom:25px; font:11px var(--font-mono); color:var(--text-muted); }
+.course-meta>span:first-child { color:var(--amber); }
+.course-card h2 { font-size:27px; }
+.course-card>p { color:var(--text-muted); font-size:14px; line-height:1.9; margin:17px 0 25px; }
+.course-progress { margin-top:auto; }
+.course-progress>span { font:11px var(--font-mono); color:var(--text-muted); }
+.course-progress progress { margin:12px 0 23px; }
+.course-button { align-self:flex-start; }
+.course-back { min-height:44px; padding:0 0 10px; background:none; color:var(--text-muted); border:0; font-size:12px; }
+.course-back:hover { color:var(--text); }
+.active-course { color:var(--accent-text); font-size:15px; line-height:1.6; margin:0 0 20px; }
+@media(max-width:780px) { .course-main { padding:35px 22px 20px; } .course-grid { grid-template-columns:1fr; gap:20px; } .course-card { padding:24px; } .course-intro { font-size:14px; } .course-card h2 { font-size:25px; } .course-button { width:100%; } }

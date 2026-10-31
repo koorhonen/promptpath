@@ -1,7 +1,7 @@
 import {Hono} from 'hono';
 import {cors} from 'hono/cors';
 import {bodyLimit} from 'hono/body-limit';
-import {getLessons} from '../shared/lessons';
+import {getLessons,isCourseId} from '../shared/lessons';
 import {errors} from '../shared/errors';
 import {evaluateWithGemma,GemmaError} from './gemma';
 interface Bindings {GEMMA_API_KEY:string;GEMMA_MODEL:string;ALLOWED_ORIGINS:string;RATE_LIMITER:{limit(options:{key:string}):Promise<{success:boolean}>}}
@@ -20,7 +20,9 @@ app.post('/api/evaluate',async c=>{
  if(!input || typeof input!=='object' || !('lessonId' in input) || !('prompt' in input))return c.json({error:messages(c.req.header('Accept-Language')).missing},400);
  const language='language' in input ? input.language : 'fi';
  if(language!=='fi' && language!=='en')return c.json({error:messages(c.req.header('Accept-Language')).language},400);
- const lesson=getLessons(language).find(l=>l.id===input.lessonId);
+ const courseId='courseId' in input?input.courseId:'foundations';
+ if(!isCourseId(courseId))return c.json({error:messages(c.req.header('Accept-Language')).course},400);
+ const lesson=getLessons(language,courseId).find(l=>l.id===input.lessonId);
  if(!lesson || typeof input.prompt!=='string' || input.prompt.trim().length<10 || input.prompt.length>4000)return c.json({error:messages(c.req.header('Accept-Language')).input},400);
  if(!c.env.GEMMA_API_KEY)return c.json({error:messages(c.req.header('Accept-Language')).setup},503);
  try{
