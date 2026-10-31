@@ -1,0 +1,3 @@
+# Kopioi .dev.vars-tiedostoon paikallista oikeaa arviointia varten.
+# Älä tallenna oikeaa avainta Gitiin. Tuotanto: npx wrangler secret put GEMMA_API_KEY
+GEMMA_API_KEY=

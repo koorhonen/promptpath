@@ -1,90 +1,58 @@
-# React + Vite + Hono + Cloudflare Workers
+# Promptpath
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/vite-react-template)
+Pelimäinen suomenkielinen promptaamisen oppimisympäristö. Rakennettu projektin React 19-, TypeScript-, Vite-, Hono- ja Cloudflare Workers -teknologioilla.
 
-This template provides a minimal setup for building a React application with TypeScript and Vite, designed to run on Cloudflare Workers. It features hot module replacement, ESLint integration, and the flexibility of Workers deployments.
+## Käynnistys
 
-![React + TypeScript + Vite + Cloudflare Workers](https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/fc7b4b62-442b-4769-641b-ad4422d74300/public)
+Node.js 22.19 tai uudempi.
 
-<!-- dash-content-start -->
+~~~sh
+npm ci
+npm run dev:demo
+~~~
 
-🚀 Supercharge your web development with this powerful stack:
+Avaa http://localhost:5173. Demotila ei arvioi laatua eikä lähetä prompteja palvelimelle. Se sallii etenemisen kokeilun vapaasti. Demo ja oikea arviointi tallentavat etenemisen erikseen selaimeen. Oikea arviointi: npm run dev. Gemma 4 tarvitsee Google AI Studio -API-avaimen. Kehityspalvelin kutsuu Googlen etäpalvelua oikeassa arviointitilassa.
 
-- [**React**](https://react.dev/) - A modern UI library for building interactive interfaces
-- [**Vite**](https://vite.dev/) - Lightning-fast build tooling and development server
-- [**Hono**](https://hono.dev/) - Ultralight, modern backend framework
-- [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) - Edge computing platform for global deployment
+## Oppimispolku
 
-### ✨ Key Features
+Kahdeksan tasoa: tehtävä, taustatiedot, vastausmuoto, rajat, esimerkit, tarkentavat kysymykset, aineiston erottaminen ja luotettava kokonaisuus. Jokaisella tasolla on opetus, esimerkki, harjoitus ja vinkki. Kaikkien kriteerien täyttyminen avaa seuraavan tason. Virhe tai epäkelpo mallivastaus ei avaa tasoa.
 
-- 🔥 Hot Module Replacement (HMR) for rapid development
-- 📦 TypeScript support out of the box
-- 🛠️ ESLint configuration included
-- ⚡ Zero-config deployment to Cloudflare's global network
-- 🎯 API routes with Hono's elegant routing
-- 🔄 Full-stack development setup
-- 🔎 Built-in Observability to monitor your Worker
+- src/react-app: React-käyttöliittymä, palaute ja selaimen etenemistallennus.
+- src/shared: tyypitetty opetussisältö ja arviointisopimus.
+- src/worker: Hono POST /api/evaluate, Google Gemma 4, syöterajat, CORS ja IP-rajoitus.
 
-Get started in minutes with local development or deploy directly via the Cloudflare dashboard. Perfect for building modern, performant web applications at the edge.
+## GitHub Pages + Cloudflare
 
-<!-- dash-content-end -->
+1. Kirjaudu: npx wrangler login.
+2. Lisää wrangler.json-tiedoston ALLOWED_ORIGINS-asetukseen GitHub Pages -alkuperä, esim. https://kayttaja.github.io. Älä lisää repon polkua. Useat alkuperät erotetaan pilkulla.
+3. Suorita npm run build ja npm run deploy. Cloudflare tarjoaa API:n ja haluttaessa myös käyttöliittymän. Ennen julkaisua tallenna Google AI Studion avain komennolla npx wrangler secret put GEMMA_API_KEY. GEMMA_MODEL-asetus wrangler.json-tiedostossa on gemma-4-26b-a4b-it; vaihtoehto on gemma-4-31b-it. API:n käyttöehdot ja kiintiöt määräytyvät Google-tilin mukaan.
+4. Aseta GitHub-repon Settings → Secrets and variables → Actions → Variables -kohtaan VITE_API_URL = julkaistun Workerin osoite ilman /api-polun osaa.
+5. Valitse Settings → Pages → Source → GitHub Actions. Main-haaran push julkaisee frontendin mukana olevalla työnkululla. Muuta haara tarvittaessa.
 
-## Getting Started
+npm run build:pages tuottaa staattiset tiedostot dist/pages-hakemistoon suhteellisilla resurssipoluilla. Cloudflare-plugin säilyy normaalissa kehityksessä ja Worker-buildissa, mutta on pois Pages-buildista. Jos API-osoite puuttuu Pages-buildista, oikea arviointi ei toimi; sitä ei vaihdeta hiljaa demoksi.
 
-To start a new project with this template, run:
+Erillisen API:n osoitteen voi asettaa .env.local-tiedoston VITE_API_URL-muuttujaan. Älä lisää salaisuuksia julkisiin VITE_-muuttujiin. .env.example näyttää asetukset.
 
-```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/vite-react-template
-```
+## Tarkistukset
 
-A live deployment of this template is available at:
-[https://react-vite-template.templates.workers.dev](https://react-vite-template.templates.workers.dev)
-
-## Development
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start the development server with:
-
-```bash
-npm run dev
-```
-
-Your application will be available at [http://localhost:5173](http://localhost:5173).
-
-## Production
-
-Build your project for production:
-
-```bash
+~~~sh
+npm test
 npm run build
-```
+npm run build:pages
+~~~
 
-Preview your build locally:
+Testit tarkistavat arvioinnin validoinnin ilman maksullista mallikutsua. npm run cf-typegen päivittää Cloudflaren tyyppimääritykset binding-muutosten jälkeen.
 
-```bash
-npm run preview
-```
+## Pohjan rajat
 
-Deploy your project to Cloudflare Workers:
+Eteneminen on selaimen localStoragessa ja käyttäjän muokattavissa. Luotettu suoritusrekisteri ja laitteiden välinen synkronointi vaativat kirjautumisen ja palvelintallennuksen, esimerkiksi D1:n. Tekoäly voi erehtyä: kalibroi arviointi oikeilla suomenkielisillä vastauksilla ennen laajaa julkaisua. Promptin sisäisten käskyjen torjunta on malliohje, ei ehdoton suoja.
 
-```bash
-npm run build && npm run deploy
-```
+API sallii 10 yritystä IP-osoitetta kohti minuutissa Cloudflaren likimääräisellä hajautetulla rajoittimella. CORS ei ole tunnistautuminen. Lisää ennen laajaa lanseerausta Turnstile tai käyttäjäkohtaiset kiintiöt ja kustannusseuranta. Sovellus ei tallenna prompteja palvelintietokantaan; ne lähetetään Googlen Gemini API:n Gemma 4 -mallille. Lisää julkiselle palvelulle tietosuojaseloste. Worker-lokitus on oletuksena pois käytöstä.
 
-Monitor your workers:
+## Gemma 4 -arvioinnin asetukset
 
-```bash
-npx wrangler tail
-```
+Hanki avain [Google AI Studiosta](https://aistudio.google.com/apikey). Tuotanto: npx wrangler secret put GEMMA_API_KEY. Paikallinen kehitys: kopioi .dev.vars.example tiedostoksi .dev.vars ja täytä GEMMA_API_KEY. Avainta ei aseteta selaimeen tai VITE_-muuttujiin. .dev.vars on ohitettu Gitissä.
 
-## Additional Resources
+Toteutus käyttää suoraan [Googlen Gemma 4 REST API:a](https://ai.google.dev/gemma/docs/core/gemma_on_gemini_api), palvelimen aikakatkaisua ja vastauksen validointia. Katkennut, estetty tai epäkelpo vastaus ei avaa tasoa. Palvelun virhevastausta tai API-avainta ei näytetä käyttäjälle. Testit käyttävät API:n testikorviketta, eivät oikeaa avainta.
 
-- [Cloudflare Workers Documentation](https://developers.cloudflare.com/workers/)
-- [Vite Documentation](https://vitejs.dev/guide/)
-- [React Documentation](https://reactjs.org/)
-- [Hono Documentation](https://hono.dev/)
+Pelillisyys: tasokartta, pelaajan arvonimi, neljä saavutusta, 100 XP kustakin uudesta tasosta ja hillitty suorituspalaute. Uusintasuoritukset eivät lisää XP:tä. Ulkoasu on tumma ja hillitty, ilman maskottia tai pelihahmoja.
