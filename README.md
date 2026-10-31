@@ -56,3 +56,11 @@ Hanki avain [Google AI Studiosta](https://aistudio.google.com/apikey). Tuotanto:
 Toteutus käyttää suoraan [Googlen Gemma 4 REST API:a](https://ai.google.dev/gemma/docs/core/gemma_on_gemini_api), palvelimen aikakatkaisua ja vastauksen validointia. Katkennut, estetty tai epäkelpo vastaus ei avaa tasoa. Palvelun virhevastausta tai API-avainta ei näytetä käyttäjälle. Testit käyttävät API:n testikorviketta, eivät oikeaa avainta.
 
 Pelillisyys: tasokartta, pelaajan arvonimi, neljä saavutusta, 100 XP kustakin uudesta tasosta ja hillitty suorituspalaute. Uusintasuoritukset eivät lisää XP:tä. Ulkoasu on tumma ja hillitty, ilman maskottia tai pelihahmoja.
+
+## Kielet ja aloitussivu
+
+Sivusto avautuu aina tutustumissivulle, josta valitaan suomi tai englanti. Valinta kattaa käyttöliittymän, kahdeksan oppituntia, arviointikriteerit ja Gemman palautteen. Kieltä voi vaihtaa harjoittelun yläpalkista. Eteneminen tallennetaan kummallekin kielelle erikseen, ja aiempi suomenkielinen eteneminen säilyy. API hyväksyy language-kentässä fi tai en; ilman kenttää oletus on fi.
+
+## Ulkoasun ohje
+
+[DESIGN.md](DESIGN.md) määrittelee pysyvän Parallax Storytelling -tyylin, värit, typografian, tarinan luvut, mobiiliasettelun ja saavutettavuuden. Tutustumissivu käyttää kerrostettua vieritystä tuetuissa selaimissa. Harjoittelu pysyy paikallaan luettavana. Järjestelmän liikkeen vähentämisasetus poistaa animaatiot.

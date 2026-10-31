@@ -17,3 +17,9 @@ test('estetty vastaus ei avaa tasoa',async()=>{await assert.rejects(()=>evaluate
 test('Google-virhe säilyttää tilakoodin muttei paljasta vastauksen sisältöä',async()=>{await assert.rejects(()=>evaluateWithGemma(config,lesson,'Kutsu',fake({error:{message:'sensitive-provider-detail'}},429)),(e:unknown)=>e instanceof GemmaError && e.status===429 && !e.message.includes('sensitive'));});
 test('epäkelpo JSON ei avaa tasoa',async()=>{await assert.rejects(()=>evaluateWithGemma(config,lesson,'Kutsu',fake(answer('not-json'))));});
 test('thinking-sisältö jätetään pois arvioinnista',async()=>{const body={candidates:[{finishReason:'STOP',content:{parts:[{thought:true,text:'internal text'},{text:JSON.stringify(good)}]}}]};assert.equal((await evaluateWithGemma(config,lesson,'Kutsu',fake(body))).passed,true);});
+
+test('englannin valinta ohjaa palautteen ja tehtävän englanniksi',async()=>{
+ const send:typeof fetch=async(_url,options)=>{const body=JSON.parse(String(options?.body));assert.ok(body.systemInstruction.parts[0].text.includes('Write all feedback and improvements in clear English'));assert.equal(JSON.parse(body.contents[0].parts[0].text).task,'Write an invitation.');return Response.json(answer(JSON.stringify({criteria:[true,true],feedback:'Clear instructions.',improvements:[]})));};
+ const englishLesson={...lesson,task:'Write an invitation.'};
+ assert.equal((await evaluateWithGemma(config,englishLesson,'Write an invitation.',send,'en')).feedback,'Clear instructions.');
+});
